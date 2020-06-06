@@ -27,3 +27,7 @@ body {
 .cell.contains_piece{
     background-color: green;
 }
+
+.cell.valid_move_cell{
+    background-color: yellow;
+}
