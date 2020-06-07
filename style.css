@@ -24,8 +24,15 @@ body {
     margin: 0.5px;   
 }
 
+.cell.selected_piece{
+    background-color: orange;
+}
+
 .cell.contains_piece{
-    background-color: green;
+    /* background-color: green; */
+    display: inline;
+    font-size: 80px;
+    text-align: center;
 }
 
 .cell.valid_move_cell{
