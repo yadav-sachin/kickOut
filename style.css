@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-content: center;
     align-items: center;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
 }
 
 .cell{
@@ -21,6 +21,13 @@ body {
     height: 100px;
     background-color: white;
     border: 1px solid black;
+    margin: 0.5px;   
+}
+
+.out_cell{
+    width: 100px;
+    height: 100px;
+    background-color: white;
     margin: 0.5px;   
 }
 
@@ -37,4 +44,16 @@ body {
 
 .cell.valid_move_cell{
     background-color: yellow;
+}
+
+.out_cell.valid_move_cell{
+    background-color: red;
+}
+
+.top_cell{
+    border-top: none;
+}
+
+.left_cell{
+    border-left: none;
 }
