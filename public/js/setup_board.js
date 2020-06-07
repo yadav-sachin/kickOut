@@ -8,6 +8,10 @@ $(function () {
     for (let i = 1; i <= numRows; ++i)
         $('#'+ i + '_1').addClass('left_cell');
     $('#board > .cell.contains_piece').html("&#9679;");
-});
 
+    exports ={
+        numRows,
+        numCols
+    };
+});
 
