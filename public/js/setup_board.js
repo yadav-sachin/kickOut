@@ -1,6 +1,8 @@
 let currPlayer = 1;
-let numRows = 5;
-let numCols = 5;
+let numRows = parseInt(prompt('The Number of Rows (less than 10)'));
+let numCols = parseInt(prompt('The Number of Columns (less than 10)'));
+console.log(numRows, numCols);
+
 //This setups the board grid
 let piece_dimension = 60;
 data = []
@@ -44,13 +46,34 @@ function setPieces() {
         }
 }
 
+function constructGrid(){
+    $board = $('#board');
+    $board.css('grid-template-columns', `repeat(${numCols+1}, auto)`);
+    for(let j = 0; j <= numCols; ++j)
+    {
+        $board.append(
+            `<div class="out_cell" id="0_${j}"></div>`
+        );
+    }
+    for (let i = 1; i <= numRows; ++i)
+    {
+        $board.append(
+            `<div class="out_cell" id="${i}_0"></div>`
+            )
+        for (let j = 1; j <= numCols; ++j)
+        $board.append(
+            `<div class="cell" id="${i}_${j}"></div>`
+        )  
+    }
+}
+
 $(function () {
     //removing the top and left borders for removal
+    constructGrid();
     for (let j = 1; j <= numCols; ++j)
         $('#1_' + j).addClass('top_cell');
     for (let i = 1; i <= numRows; ++i)
         $('#' + i + '_1').addClass('left_cell');
-    $('#board > .cell.contains_piece').html("&#9679;");
     //Then set the pieces on the board
     setPieces();
 });
