@@ -44,9 +44,10 @@ function markValidCells($piece, $cell)
 $(function(){
     //First click for selecting the piece to move
     // Creating the click event for a cell that contains a piece
-    $('#board').on('click', '.game_piece',function () {
+    $('#board').on('click', '.game_piece',function (ev) {
         //if some token was already selected 
         $cell = $(this).parents('.cell');
+        ev.stopPropagation();
         selectedCellID=$cell.attr('id');
         if ( $('.selected_game_piece').length ){
             $('.selected_game_piece').removeClass('selected_game_piece');
@@ -62,9 +63,9 @@ $(function(){
         let to_i = parseInt($(this).attr('id')[0]), to_j = parseInt($(this).attr('id')[2]);
         deleteGamePiece(from_i, from_j, selectedPieceColor);
         addGamePiece(to_i,  to_j, selectedPieceColor);
-        togglePlayerTurn();
         $(".valid_move_cell").removeClass('valid_move_cell');
         $('.selected_piece').removeClass('selected_piece');
         // If the clicked cell is not an outside cell
     });
+
 });

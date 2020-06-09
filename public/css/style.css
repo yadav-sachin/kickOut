@@ -52,13 +52,13 @@ body {
     border-left: none;
 }
 
-.player_1_turn, .player_2_turn{
+.player_1_turn, .player_2_turn, .player_1_win, .player_2_win{
     display: inline-block;
     width: 100px;
     height: 50px;
 }
 
-.active_player{
+.active_player, .predicted_winner{
     background-color: green;
     color: white;
 }

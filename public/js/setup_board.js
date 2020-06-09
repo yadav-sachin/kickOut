@@ -1,4 +1,5 @@
 let currPlayer = 1;
+let predictedWinner = 1;
 let numRows = parseInt(prompt('The Number of Rows (less than 10)'));
 while (Number.isNaN(numRows) || numRows < 1 || numRows > 9)
     numRows = parseInt(prompt('The Number of Rows (less than 10)'));
@@ -22,11 +23,10 @@ for (let i = 1; i <= numRows; ++i) {
     data.push(col_data);
 }
 
-for (let i = 1; i <= numPieces; ++i)
-{
-    let x = Math.floor(Math.random()*numRows)+1, y = Math.floor(Math.random() * numCols)+1, clr = Math.floor(Math.random()*3)+1;
-    console.log(x,y,clr);
-    data[x-1][y-1][clrs[clr-1]]+=1;
+for (let i = 1; i <= numPieces; ++i) {
+    let x = Math.floor(Math.random() * numRows) + 1, y = Math.floor(Math.random() * numCols) + 1, clr = Math.floor(Math.random() * 3) + 1;
+    console.log(x, y, clr);
+    data[x - 1][y - 1][clrs[clr - 1]] += 1;
 }
 
 function placeGamePiece(data, i, j, clr, $cell) {
@@ -54,24 +54,22 @@ function setPieces() {
         }
 }
 
-function constructGrid(){
+function constructGrid() {
     $board = $('#board');
-    $board.css('grid-template-columns', `repeat(${numCols+1}, auto)`);
-    for(let j = 0; j <= numCols; ++j)
-    {
+    $board.css('grid-template-columns', `repeat(${numCols + 1}, auto)`);
+    for (let j = 0; j <= numCols; ++j) {
         $board.append(
             `<div class="out_cell" id="0_${j}"></div>`
         );
     }
-    for (let i = 1; i <= numRows; ++i)
-    {
+    for (let i = 1; i <= numRows; ++i) {
         $board.append(
             `<div class="out_cell" id="${i}_0"></div>`
-            )
+        )
         for (let j = 1; j <= numCols; ++j)
-        $board.append(
-            `<div class="cell" id="${i}_${j}"></div>`
-        )  
+            $board.append(
+                `<div class="cell" id="${i}_${j}"></div>`
+            )
     }
 }
 
@@ -84,25 +82,32 @@ $(function () {
         $('#' + i + '_1').addClass('left_cell');
     //Then set the pieces on the board
     setPieces();
+    callWinPredictor();
 });
 
-function deleteGamePiece(i, j, selectedPieceColor)
-{
-    data[i-1][j-1][selectedPieceColor] -=1;
+function deleteGamePiece(i, j, selectedPieceColor) {
+    data[i - 1][j - 1][selectedPieceColor] -= 1;
 }
 
-function addGamePiece(i, j, selectedPieceColor)
-{
+function addGamePiece(i, j, selectedPieceColor) {
     if (i > 0 && j > 0)
-        data[i-1][j-1][selectedPieceColor] +=1;
+        data[i - 1][j - 1][selectedPieceColor] += 1;
     else --numPieces;
     if (numPieces == 0)
         declareWinner(currPlayer);
     setPieces();
+    togglePlayerTurn();
+    callWinPredictor();
 }
 
-function declareWinner(currPlayer)
+function callWinPredictor()
 {
+    predictWinner(data, currPlayer, numRows, numCols)
+    .then((winner) => { predictedWinner = winner; showPredictedWinner(winner); console.log(currPlayer,predictedWinner); })
+    .catch((err) => { console.error(err); });
+}
+
+function declareWinner(currPlayer) {
     alert('Player ' + currPlayer + ' Won the Game');
     location.reload();
 }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/public/css/style.css">
     <script src="/public/js/jquery.js"></script>
     <script  src="/public/js/setup_board.js"></script>
+    <script src="/public/js/win_predictor.js"></script>
     <script  src="/public/js/manage_player_turn.js"></script>
     <script  src="/public/js/moving_pieces.js"></script>
 </head>
@@ -15,6 +16,12 @@
     </div>
     <div class="player_1_turn active_player">Player 1</div>
     <dv class="player_2_turn">Player 2</dv>
+    <br />
+    <div class="player_1_win predicted_winner">Player 1 will Win</div>
+    <dv class="player_2_win">Player 2 will Win</dv>
+    <div id="win_message">
+        <button type="submit">Restart</button>
+    </div>
     <div id="win_message">
         <button type="submit">Restart</button>
     </div>
