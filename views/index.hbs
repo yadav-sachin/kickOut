@@ -6,9 +6,9 @@
     <title>kickOut</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <script src="/public/js/jquery.js"></script>
-    <script async defer src="/public/js/setup_board.js"></script>
-    <script async defer src="/public/js/manage_pieces.js"></script>
-    <script async defer src="/public/js/moving_pieces.js"></script>
+    <script  src="/public/js/setup_board.js"></script>
+    <script  src="/public/js/manage_player_turn.js"></script>
+    <script  src="/public/js/moving_pieces.js"></script>
 </head>
 <body>
     <div id="board">
@@ -33,7 +33,7 @@
         <div class="out_cell" id="3_0"></div>
         <div class="cell" id="3_1"></div>
         <div class="cell" id="3_2"></div>
-        <div class="cell contains_piece" id="3_3"></div>
+        <div class="cell" id="3_3"></div>
         <div class="cell" id="3_4"></div>
         <div class="cell" id="3_5"></div>
         <div class="out_cell" id="4_0"></div>
@@ -43,15 +43,16 @@
         <div class="cell" id="4_4"></div>
         <div class="cell" id="4_5"></div>
         <div class="out_cell" id="5_0"></div>
-        <div class="cell contains_piece" id="5_1"></div>
+        <div class="cell" id="5_1"></div>
         <div class="cell" id="5_2"></div>
         <div class="cell" id="5_3"></div>
         <div class="cell" id="5_4"></div>
         <div class="cell" id="5_5"></div>
-        <!-- <div id="game_turn">It's Player 1 Turn</div>
-        <div id="win_message">
-            <button type="submit">Restart</button>
-        </div> -->
+    </div>
+    <div class="player_1_turn active_player">Player 1</div>
+    <dv class="player_2_turn">Player 2</dv>
+    <div id="win_message">
+        <button type="submit">Restart</button>
     </div>
 </body>
 </html>

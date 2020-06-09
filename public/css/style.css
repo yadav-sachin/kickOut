@@ -7,8 +7,8 @@ body {
 }
 
 #board{
-    width: 100vw;
-    height: 100vh;
+    width: 80vw;
+    height: 80vh;
     display: grid;
     justify-content: center;
     align-content: center;
@@ -17,16 +17,16 @@ body {
 }
 
 .cell{
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 80px;
     background-color: white;
     border: 1px solid black;
     margin: 0.5px;   
 }
 
 .out_cell{
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 80px;
     background-color: white;
     margin: 0.5px;   
 }
@@ -35,12 +35,6 @@ body {
     background-color: orange;
 }
 
-.cell.contains_piece{
-    /* background-color: green; */
-    display: inline;
-    font-size: 80px;
-    text-align: center;
-}
 
 .cell.valid_move_cell{
     background-color: yellow;
@@ -56,4 +50,31 @@ body {
 
 .left_cell{
     border-left: none;
+}
+
+.player_1_turn, .player_2_turn{
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+}
+
+.active_player{
+    background-color: green;
+    color: white;
+}
+
+.game_piece{
+    display:inline-block;
+}
+
+.selected_cell{
+    background-color: orange;
+}
+
+.selected_game_piece > svg{
+    border-radius: 100px;
+    box-shadow:
+    0 0 60px 5px #fff,  /* inner white */
+    0 0 100px 15px #f0f, /* middle magenta */
+    0 0 140px 20px #0ff; /* outer cyan */
 }
