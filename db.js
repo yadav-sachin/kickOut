@@ -1,4 +1,10 @@
-const db = require('./db').db;
+const { Sequelize, Model, DataTypes } = require('sequelize');
+
+const db = new Sequelize('mytestdb', 'myuser', 'mypass', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+
 const LeaderBoard = db.define('leaderboard', {
     username: {
         type: DataTypes.STRING(30),
@@ -11,5 +17,4 @@ const LeaderBoard = db.define('leaderboard', {
     lost: DataTypes.INTEGER
 });
 
-module.exports = { LeaderBoard };
-
+module.exports = {db, LeaderBoard};

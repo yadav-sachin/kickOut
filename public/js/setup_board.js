@@ -4,6 +4,8 @@ let numRows = parseInt(prompt('The Number of Rows (less than 10)'));
 while (Number.isNaN(numRows) || numRows < 1 || numRows > 9)
     numRows = parseInt(prompt('The Number of Rows (less than 10)'));
 let numCols = parseInt(prompt('The Number of Columns (less than 10)'));
+while (Number.isNaN(numRows) || numRows < 1 || numRows > 9)
+    numRows = parseInt(prompt('The Number of Rows (less than 10)'));
 let numPieces = parseInt(prompt('The Number of Pieces'));
 console.log(numRows, numCols);
 let clrs = ['black', 'blue', 'red'];
