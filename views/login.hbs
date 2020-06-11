@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KickOut</title>
+</head>
+<body>
+    <h1>Welcome to KickOut</h1>
+    <h2>LogIn to the System Here</h2>
+
+    <div id="login_form_box">
+    <form method="POST" action ="/user/login" id="login_form">
+        <input type="text" name="useridentity" id="useridentity_form" placeholder = "Username" required>
+        <input type="password" name="password" id="password_form" placeholder="Password" required>
+        <input type="submit" value="LogIn" id ="login_form_btn">
+    </form>
+    </div>
+    <h2>Create New Account Here Here</h2>
+    <div id="signup_form_box">
+    <form action="/user/signup" method="post" id = "signup_form">
+        <input type="text" name="firstname" id="firstname_form" placeholder="firstName" required>
+        <input type="text" name="lastname" id="lastname_form" placeholder="lastName">
+        <br>
+        <input type="text" name="username" id="username_form" placeholder="UserName" required>
+        <input type="password" name="password" id="password_form" placeholder="Password" required>
+        <br>
+        <input type="email" name="email" id="email_form" placeholder="Email" required>
+        <br>
+        <input type="submit" value="Create" id = "Create">
+    </form>
+    </div>
+
+</body>
+</html>
