@@ -39,6 +39,10 @@ const User = db.define('user', {
         type: DataTypes.INTEGER,
         allowNull: true //change to false afterwards
     },
+    coderequesttime:{
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     played: {
         type: DataTypes.INTEGER,
         defaultValue: 0
@@ -71,10 +75,10 @@ User.findByCredential = function (useridentity, password) //user identity is eit
         else
             user = await User.findOne({ where: { username: useridentity } });
         if (!user) 
-            reject(new Error('Given Username/Email does not exist'));
+            reject('Given Username/Email does not exist');
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) 
-            reject(new Error('Given Username/Email does not exist'));
+            reject('Given Username/Email does not exist');
         resolve(user);
     });
 }

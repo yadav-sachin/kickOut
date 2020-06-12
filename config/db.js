@@ -1,16 +1,11 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const chalk = require('chalk');
+require('dotenv').config();
 
-const db = new Sequelize('kickout', 'myuser', 'mypass', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
-const log = console.log;
-const success = chalk.green.inverse;
-const error = chalk.red.inverse;
+const db = new Sequelize(process.env.DATABASE_URL);
 
 db.authenticate()
-    .then( () => { log(success('Connected to DataBase Successfully')); })
-    .catch( (err) => { console.log(error(err)); });
+    .then( () => { console.log(chalk.green.inverse('Connected to DataBase Successfully')); })
+    .catch( (err) => { console.log(chalk.red.inverse(err)); });
 
 module.exports = {db};
