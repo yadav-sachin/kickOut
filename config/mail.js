@@ -9,7 +9,7 @@ function sendVerification(username,firstname, email, code){
             from: process.env.MAIL_ID,
             subject: 'Complete Account Verification',
             text:`Thanks for Signing up ${firstname}.
-            Please verify your mail to get access to ton of fun in out Multiplayer Games.
+            Please verify your mail to get access to ton of fun in our Multiplayer Games.
             Thank You!
             Your Verification Code is ${code}.`,
             html: `<h3>Thanks for Signing up ${firstname} !</h3>

@@ -1,8 +1,10 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
+const DataTypes = Sequelize.DataTypes;
 const chalk = require('chalk');
 const { db } = require('../config/db');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const crypto = require('crypto');
 
 const User = db.define('user', {
     username: {
@@ -12,13 +14,13 @@ const User = db.define('user', {
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true             //NULL when yet to be verified and password yet to be set
     },
-    firstname: {
+    first_name: {
         type: DataTypes.STRING(20),
         allowNull: false
     },
-    lastname: {
+    last_name: {
         type: DataTypes.STRING(20),
         allowNull: true
     },
@@ -30,18 +32,19 @@ const User = db.define('user', {
             isEmail: true
         }
     },
-    isverified: {
+    is_verified: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
         defaultValue: false
     },
-    verificationcode: {
-        type: DataTypes.INTEGER,
-        allowNull: true //change to false afterwards
-    },
-    coderequesttime:{
-        type: DataTypes.DATE,
+    verification_code: {
+        type: DataTypes.STRING,
         allowNull: true
+    },
+    verfication_request_time: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: Sequelize.NOW
     },
     played: {
         type: DataTypes.INTEGER,
@@ -57,35 +60,41 @@ const User = db.define('user', {
     }
 });
 
-User.beforeCreate(async (user, options) => {
-    try {
-        const hashedPassword = await bcrypt.hash(user.password, 8);
-        user.password = hashedPassword;
-    } catch (err) {
-        throw err;
-    }
+User.beforeCreate((user, options) => {
+    user.verification_code = crypto.randomBytes(30).toString('hex');
 });
 
-User.findByCredential = function (useridentity, password) //user identity is either email or username ...
+User.findByCredential = async function (useridentity, password) //user identity is either email or username ...
 {
-    return new Promise(async (resolve, reject) => {
-        let user;
-        if (validator.isEmail(useridentity))
-            user = await User.findOne({ where: { email: useridentity } });
-        else
-            user = await User.findOne({ where: { username: useridentity } });
-        if (!user) 
-            reject('Given Username/Email does not exist');
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) 
-            reject('Given Username/Email does not exist');
-        resolve(user);
+    let user;
+    if (validator.isEmail(useridentity))
+        user = await User.findOne({ where: { email: useridentity } });
+    else
+        user = await User.findOne({ where: { username: useridentity } });
+    if (!user)
+        throw new Error('Invalid Username/Email');
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+        throw new Error('Wrong Password');
+    return user;
+}
+
+User.verify = async function (username, code) {
+    const user = await User.findOne({
+        where: {
+            username,
+            verification_code: code,
+            verfication_request_time: {
+                $gt: new Date(new Date() - 24 * 60 * 60 * 1000)
+            }
+        }
     });
+    if (!user)
+        throw new Error('No Valid User Found');
 }
 
 db.sync({ alter: true })
     .then(() => console.log(chalk.green("DataBase Synchronised")));
-
 
 module.exports = { User };
 

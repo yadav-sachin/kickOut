@@ -1,33 +1,42 @@
 const express = require('express');
+const Sequelize = require('sequelize');
 const chalk = require('chalk');
 const router = express.Router();
 const { User } = require('./../models/User');
+const sgMail = require('./../config/mail');
 
 router.get('/', (req, res) => {
     res.render('login');
 });
 
 router.post('/login', async (req, res) => {
-    try{
+    try {
         const user = await User.findByCredential(req.body.useridentity, req.body.password);
         res.send(user);
-    } catch(err)
-    {
-        res.send(err);
+    } catch (err) {
+        res.send({ error: err });
+    }
+});
+
+router.get('/verify/:username/:code', async (req, res) => {
+    try {
+        const user = User.verify(req.params.username, req.params.code);
+        user.
+            res.send('Set Your Password');
+    } catch (err) {
+        res.send({ error: err });
     }
 });
 
 router.post('/signup', async (req, res) => {
-    console.log(chalk.blue(req.body));
-    await User.create(req.body)
-        .then((new_user) => { 
-            res.send(new_user); 
-            console.log(chalk.green('User created successfully')); 
-        })
-        .catch(() => { 
-            res.redirect('/user'); 
-            console.log(chalk.red('Cannot create User')); 
-        });
+    try {
+        const newUser = await User.create(req.body);
+        res.send(newUser);
+        sgMail.sendVerification(newUser.username, newUser.first_name, newUser.email, newUser.verification_code);
+        console.log(chalk.green('User created successfully'));
+    } catch (err) {
+        res.send({ error: 'User Cannot Be Created' });
+    }
 });
 
 module.exports = router;
