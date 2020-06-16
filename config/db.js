@@ -1,11 +1,14 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const mongoose = require('mongoose');
 const chalk = require('chalk');
 require('dotenv').config();
 
-const db = new Sequelize(process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+});
 
-db.authenticate()
-    .then( () => { console.log(chalk.green.inverse('Connected to DataBase Successfully')); })
-    .catch( (err) => { console.log(chalk.red.inverse(err)); });
+const db = mongoose.connection;
 
-module.exports = {db};
+db.on('error', (err) => console.log(chalk.red.inverse('Connection to Database Failed\n', err)));
+db.on('open', () => console.log(chalk.green.inverse('Database Connected')));
