@@ -1,100 +1,97 @@
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
+const mongoose = require('mongoose');
 const chalk = require('chalk');
-const { db } = require('../config/db');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const crypto = require('crypto');
 
-const User = db.define('user', {
-    username: {
-        type: DataTypes.STRING(15),
-        unique: true,
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: true             //NULL when yet to be verified and password yet to be set
-    },
-    first_name: {
-        type: DataTypes.STRING(20),
-        allowNull: false
-    },
-    last_name: {
-        type: DataTypes.STRING(20),
-        allowNull: true
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true
-        }
-    },
-    is_verified: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-        defaultValue: false
-    },
-    verification_code: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    verfication_request_time: {
-        type: DataTypes.DATE,
-        allowNull: true,
-        defaultValue: Sequelize.NOW
-    },
-    played: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    ongoing: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    won: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    }
-});
-
-User.beforeCreate((user, options) => {
-    user.verification_code = crypto.randomBytes(30).toString('hex');
-});
-
-User.findByCredential = async function (useridentity, password) //user identity is either email or username ...
-{
-    let user;
-    if (validator.isEmail(useridentity))
-        user = await User.findOne({ where: { email: useridentity } });
-    else
-        user = await User.findOne({ where: { username: useridentity } });
-    if (!user)
-        throw new Error('Invalid Username/Email');
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-        throw new Error('Wrong Password');
-    return user;
-}
-
-User.verify = async function (username, code) {
-    const user = await User.findOne({
-        where: {
-            username,
-            verification_code: code,
-            verfication_request_time: {
-                $gt: new Date(new Date() - 24 * 60 * 60 * 1000)
+const userSchema = mongoose.Schema(
+    {
+        username: {
+            type: String,
+            unique: true,
+            required: [true, 'Username is Required']
+        },
+        password: {
+            type: String,
+            required: [true, 'Password is Required'],
+            validate: {
+                validator(val) {
+                    return val.length >= 6;
+                },
+                message: 'Password must be at least 6 characters'
             }
+        },
+        firstName: {
+            type: String,
+            required: [true, 'First Name is Required'],
+            validate: {
+                validator: function (val) {
+                    return validator.isAlpha(val);
+                },
+                message: 'The first name should only contain latin alphabets.',
+            },
+        },
+        lastName: {
+            type: String,
+            validate: {
+                validator: function (val) {
+                    return validator.isAlpha(val);
+                },
+                message: 'The last name should only contain latin alphabets.',
+            },
+        },
+        email: {
+            type: String,
+            required: [true, 'Email is Required'],
+            unique: true,
+            validate: {
+                validator: function (val) {
+                    return validator.isEmail(val);
+                },
+                message: 'Invalid Email',
+            }
+        },
+        isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        verificationCode: {
+            type: String,
+        },
+        verificationRequestTime: {
+            type: Date
+        },
+        played: {
+            type: Number,
+            default: 0
+        },
+        completed: {
+            type: Number,
+            default: 0
+        },
+        won: {
+            type: Number,
+            default: 0
         }
-    });
-    if (!user)
-        throw new Error('No Valid User Found');
-}
+    }
+);
 
-db.sync({ alter: true })
-    .then(() => console.log(chalk.green("DataBase Synchronised")));
+userSchema.virtual('lost').get(function () {
+    return this.completed - this.won;
+});
+
+userSchema.virtual('ongoing').get(function () {
+    return this.played - this.completed;
+});
+
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        this.password = hashedPassword;
+    }
+    next();
+});
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = { User };
-
