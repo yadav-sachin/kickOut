@@ -15,7 +15,7 @@ async function sendVerification(user) {
             Your Verification Code is ${user.verificationCode}.`,
             html: `<h3>Thanks for Signing up ${user.firstName} !</h3>
             <p>Please verify your mail to get access to ton of fun in our Multiplayer Game. The link will expire in 24 hours.</p>
-            <p style = "color: yellow;"><strong>Thank You!</strong></p>
+            <p style = "color: green;"><strong>Thank You!</strong></p>
             <br>
             <a href="https://kick-out.herokuapp.com/user/verify/${user.username}/${user.verificationCode}">Proceed Here to Verify</a>`
         }

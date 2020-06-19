@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    {{#each Logs}}
+    {{#each logs}}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{this}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -49,12 +49,14 @@
     {{/each}}
     <div id="signup_form_box">
         <form action="/user/signup" method="post" id="signup_form">
-            <input type="text" name="firstName" id="firstname_form" placeholder="firstName" value = {{formData.firstName}}>
-            <input type="text" name="lastName" id="lastname_form" placeholder="lastName (Optional)" value = {{formData.lastName}}>
+            <input type="text" name="firstName" id="firstname_form" placeholder="firstName"
+                value={{formData.firstName}}>
+            <input type="text" name="lastName" id="lastname_form" placeholder="lastName (Optional)"
+                value={{formData.lastName}}>
             <br>
-            <input type="text" name="username" id="username_form" placeholder="UserName" value = {{formData.username}}>
+            <input type="text" name="username" id="username_form" placeholder="UserName" value={{formData.username}}>
             <br>
-            <input type="text" name="email" id="email_form" placeholder="Email" value = {{formData.email}}>
+            <input type="text" name="email" id="email_form" placeholder="Email" value={{formData.email}}>
             <br>
             <input type="submit" value="Create" class="btn btn-primary" id="Create">
         </form>

@@ -1,38 +1,20 @@
 const express = require('express');
-const Sequelize = require('sequelize');
-const chalk = require('chalk');
+const authMiddleware = require('../middlewares/authMiddleware');
+const checkLogin = require('../middlewares/checkLoginMiddleware');
 const router = express.Router();
-const { User } = require('./../models/userModel');
-const Mail = require('../utils/mail');
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
 const userController = require('../controllers/userController');
 
-function verifyToken(req, res, next){
-    const tokenHead = req.headers.authorization;
-    // if(!)
-}
+// GET requests
+router.get('/', (req, res) => res.redirect('/user/login'));
+router.get('/signup', (req, res) => res.redirect('/user/login'));
+router.get('/login', checkLogin, (req, res) => res.render('login', {loginErrors: [req.query.error]}) );
+router.get('/verify/:username/:verificationCode', checkLogin, userController.verifyUser);
+router.get('/setpassword', authMiddleware, (req, res) => res.render('setPassword'));
 
-router.get('/', (req, res) => {
-    res.render('login');
-});
+// POST Requests
+router.post('/login' , checkLogin, userController.loginUser);
+router.post('/signup', checkLogin, userController.signupUser);
+router.post('/setpassword', authMiddleware, userController.setPassword);
 
-router.post('/login', userController.loginUser);
-
-router.get('/verify/:username/:code', async (req, res) => {
-    try {
-        const user = await User.verify(req.params.username, req.params.code);
-        res.send('Set Your Password');
-        const token = jwt.sign({userID: user.id}, process.env.SECRET_KEY,{expiresIn: '24 hrs'});
-    } catch (err) {
-        res.send({ error: err });
-    }
-});
-
-router.get('/setpassword', verifyToken, (req, res) => {
-    ;
-});
-
-router.post('/signup', userController.signupUser);
 
 module.exports = router;
