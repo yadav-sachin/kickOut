@@ -4,49 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {{> bootstrapHeader}}
     <title>KickOut</title>
 </head>
 
 <body>
-    {{#each logs}}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{this}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {{/each}}
     <h1>Welcome to KickOut</h1>
+    {{> logs}}
     <h2>LogIn to the System Here</h2>
-
-    {{#each loginErrors}}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{this}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {{/each}}
 
     <div id="login_form_box">
         <form method="POST" action="/user/login" id="login_form">
-            <input type="text" name="useridentity" class="" id="useridentity_form" placeholder="Username">
+            <input type="text" name="email" class="" id="email_form" placeholder="Email">
             <input type="password" name="password" class="" id="password_form" placeholder="Password">
             <input type="submit" value="LogIn" class="btn btn-primary" id="login_form_btn">
         </form>
     </div>
 
     <h2>Create New Account Here Here</h2>
-    {{#each signupErrors}}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{this}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {{/each}}
     <div id="signup_form_box">
         <form action="/user/signup" method="post" id="signup_form">
             <input type="text" name="firstName" id="firstname_form" placeholder="firstName"
@@ -61,15 +36,7 @@
             <input type="submit" value="Create" class="btn btn-primary" id="Create">
         </form>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+    {{> bootstrapFooter}}
 </body>
 
 </html>

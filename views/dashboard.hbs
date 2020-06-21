@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{> bootstrapHeader}}
     <title>Home</title>
 </head>
 <body>
+    {{> logs}}
     <a href="/user/logout">Logout </a>
     <h3>Welcome {{username}} </h3>
     <button>Create New Game</button>
@@ -13,5 +15,6 @@
     <button>Watch A Game</button>
     <button>Resume Previous Games</button>
     <button>LeaderBoard</button>
+    {{> bootstrapFooter}}
 </body>
 </html>

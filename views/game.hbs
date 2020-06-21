@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kickOut</title>
+    {{> bootstrapHeader}}
     <link rel="stylesheet" href="/public/css/style.css">
     <script src="/public/js/jquery.js"></script>
-    <script  src="/public/js/setup_board.js"></script>
+    <script src="/public/js/setup_board.js"></script>
     <script src="/public/js/win_predictor.js"></script>
-    <script  src="/public/js/manage_player_turn.js"></script>
-    <script  src="/public/js/moving_pieces.js"></script>
+    <script src="/public/js/manage_player_turn.js"></script>
+    <script src="/public/js/moving_pieces.js"></script>
 </head>
+
 <body>
+    {{> logs}}
     <div id="board">
     </div>
     <div class="player_1_turn active_player">Player 1</div>
@@ -23,5 +27,7 @@
         <button type="submit">Restart</button>
     </div>
     <button class="ask_Hint">Need Hint</button>
+    {{> bootstrapFooter}}
 </body>
+
 </html>
