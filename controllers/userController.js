@@ -1,36 +1,21 @@
 const User = require('./../models/userModel');
 const sgMail = require('../utils/mail');
-const authMiddleware = require('./../middlewares/authMiddleware');
 const chalk = require('chalk');
 
 exports.signupUser = async (req, res) => {
-    const signupErrors = [], logs = [];
     try {
         const user = new User(req.body);
         await user.save();
-        logs.push('User Created Successfully');
+        req.flash('success', 'User Created Successfully');
         await sgMail.sendVerification(user);
-        logs.push('Verification Mail sent successfully to the given email. The mail may shifted to Promotions/Span Category.');
-        logs.push('Verification Code will expire in 6 hours');
-        res.status(201).render('login', { signupErrors, logs });
+        req.flash('success', 'Verification Mail sent successfully to the given email. The mail may shifted to Promotions/Span Category.');
+        req.flash('success','Verification Code will expire in 6 hours');
+        res.status(201).render('login');
     } catch (err) {
-        signupErrors.push(err);
-        const formData = req.body;
-        res.status(400).render('login', { signupErrors, logs, formData });
-    }
-}
-
-exports.loginUser = async (req, res) => {
-    const loginErrors = [];
-    try {
-        const user = await User.findByCredentials(req.body.useridentity, req.body.password);
-        const token = await user.genereateAuthToken();
-        user.authTokens = user.authTokens.concat(token);
-        await user.save();
-        res.redirect('/dashboard');
-    } catch (err) {
-        loginErrors.push(err);
-        res.render('login', { loginErrors });
+        const formData = {email, firstName, lastName, username} = req.body;
+        req.flash('formData', formData);
+        req.flash('error', err.message);
+        res.redirect('/user/login');
     }
 }
 
@@ -63,7 +48,9 @@ exports.verifyUser = async (req, res) => {
 exports.setPassword = async (req, res) => {
     const errorLogs = [];
     try {
-        if (req.body.password.trim !== req.body.password2.trim)
+        req.body.password = req.body.password.trim();
+        req.body.password2 = req.body.password2.trim();
+        if (req.body.password !== req.body.password2)
             throw new Error('The two inputs do not match');
         const user = req.body.user;
         if (!user)

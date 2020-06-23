@@ -8,13 +8,10 @@ const configPassport = function (passport) {
         try {
             console.log('Login request for', email);
             const user = await User.findOne({ email });
-            console.log(user);
-            console.log(user.isVerified);
             if ((!user) || (!user.isVerified))
                 return done(null, false, { message: 'No registered Username/Email found' });
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                // req.flash('errorLogs'['Password Incorrect']);
                 console.log(chalk.blue('Password Incorrect for login by', email));
                 return done(null, false, {message: 'Password Incorrect' });
             }
@@ -28,6 +25,7 @@ const configPassport = function (passport) {
     passport.use(new localStrategy({ usernameField: 'email', passwordField: 'password' }, authenticateUser));
 
     passport.serializeUser(function (user, done) {
+        console.log(chalk.yellow(user.id));
         done(null, user.id);
     });
 

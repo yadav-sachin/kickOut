@@ -10,9 +10,8 @@
 
 <body>
     <h1>Welcome to KickOut</h1>
-    {{> logs}}
+    {{> logs }}
     <h2>LogIn to the System Here</h2>
-
     <div id="login_form_box">
         <form method="POST" action="/user/login" id="login_form">
             <input type="text" name="email" class="" id="email_form" placeholder="Email">
@@ -25,13 +24,13 @@
     <div id="signup_form_box">
         <form action="/user/signup" method="post" id="signup_form">
             <input type="text" name="firstName" id="firstname_form" placeholder="firstName"
-                value={{formData.firstName}}>
+                value={{messages.formData.0.firstName}}>
             <input type="text" name="lastName" id="lastname_form" placeholder="lastName (Optional)"
-                value={{formData.lastName}}>
+                value={{messages.formData.0.lastName}}>
             <br>
-            <input type="text" name="username" id="username_form" placeholder="UserName" value={{formData.username}}>
+            <input type="text" name="username" id="username_form" placeholder="UserName" value={{messages.formData.0.username}}>
             <br>
-            <input type="text" name="email" id="email_form" placeholder="Email" value={{formData.email}}>
+            <input type="text" name="email" id="email_form" placeholder="Email" value={{messages.formData.0.email}}>
             <br>
             <input type="submit" value="Create" class="btn btn-primary" id="Create">
         </form>

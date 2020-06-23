@@ -14,12 +14,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 app.use(session({
-    secret: process.env.SESSION_SECRET_KEY,
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: false
 }));
-// app.use(express.cookieParser('SESSION_SECRET_KEY'));
+
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

@@ -101,15 +101,15 @@ userSchema.virtual('ongoing').get(function () {
 
 userSchema.plugin(uniqueValidator, { message: 'already taken' });
 
-userSchema.statics.findByCredentials = async (useridentity, password) => {
-    const user = await User.find({ $or: [{ username: useridentity }, { email: useridentity }] });
-    if ((!user) || (!user.isVerified))
-        throw new Error('No registered Username/Email found');
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-        throw new Error('Incorrect Password');
-    return user;
-}
+// userSchema.statics.findByCredentials = async (email, password) => {
+//     const user = await User.find({email});
+//     if ((!user) || (!user.isVerified))
+//         throw new Error('No registered Username/Email found');
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch)
+//         throw new Error('Incorrect Password');
+//     return user;
+// }
 
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {

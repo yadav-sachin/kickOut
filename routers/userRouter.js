@@ -1,20 +1,21 @@
-const express = require('express');
-const authMiddleware = require('../middlewares/authMiddleware');
-const checkLogin = require('../middlewares/checkLoginMiddleware');
-const router = express.Router();
+const router = require('express').Router();
+const isAuthenticated = require('../middlewares/isAuthenticated');
+const redirectAuthenticated = require('../middlewares/redirectAuthenticated');
 const userController = require('../controllers/userController');
+const passport = require('passport');
 
 // GET requests
 router.get('/', (req, res) => res.redirect('/user/login'));
-router.get('/signup', (req, res) => res.redirect('/user/login'));
-router.get('/login', checkLogin, (req, res) => res.render('login', {loginErrors: [req.query.error]}) );
-router.get('/verify/:username/:verificationCode', checkLogin, userController.verifyUser);
-router.get('/setpassword', authMiddleware, (req, res) => res.render('setPassword'));
+router.get('/signup', redirectAuthenticated, (req, res) => res.redirect('/user/login'));
+router.get('/login', redirectAuthenticated, (req, res) => res.render('login'));
+router.get('/verify/:username/:verificationCode', redirectAuthenticated, userController.verifyUser);
+router.get('/setpassword', isAuthenticated, (req, res) => res.render('setPassword'));
+router.get('/dashboard',isAuthenticated,  (req, res) =>{ res.render('dashboard', {username: req.user.username}); });
+router.get('/logout', isAuthenticated, (req, res)=> { req.logout(); res.redirect('/'); })
 
 // POST Requests
-router.post('/login' , checkLogin, userController.loginUser);
-router.post('/signup', checkLogin, userController.signupUser);
-router.post('/setpassword', authMiddleware, userController.setPassword);
-
+router.post('/login',passport.authenticate('local', { successRedirect: '/user/dashboard', failureFlash: true, failureRedirect: '/user/login' }));
+router.post('/signup', redirectAuthenticated, userController.signupUser);
+router.post('/setpassword', isAuthenticated, userController.setPassword);
 
 module.exports = router;
