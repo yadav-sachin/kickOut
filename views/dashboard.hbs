@@ -9,11 +9,16 @@
 <body>
     {{> logs}}
     {{> userHeader}}
-    <button>Create New Game</button>
-    <button>Join A Game</button>
-    <button>Watch A Game</button>
-    <button>Resume Previous Games</button>
-    <button>LeaderBoard</button>
+    <div class="container text-center">
+        <ul class="list-group text-center list-unstyled">
+        <li><button class="btn btn-primary menu_btn m-2 col-lg-3 col-md-4 col-8 mx-auto">Create New Game</button>></li>
+        <li><button class="btn btn-primary menu_btn disabled m-2 col-lg-3 col-md-4 col-8 mx-auto">Join a Game</button>></li>
+        <li><button class="btn btn-primary menu_btn disabled m-2 col-lg-3 col-md-4 col-8 mx-auto">Watch a Game</button>></li>
+        <li><button class="btn btn-primary menu_btn disabled m-2 col-lg-3 col-md-4 col-8 mx-auto">Open Previous Games</button>></li>
+        <li><button class="btn btn-primary menu_btn disabled m-2 col-lg-3 col-md-4 col-8 mx-auto">Leaderboard</button>></li>
+        <li><button class="btn btn-primary menu_btn disabled m-2 col-lg-3 col-md-4 col-8 mx-auto">Instructions</button>></li>
+        </ul>
+    </div>
     {{> bootstrapFooter}}
 </body>
 </html>

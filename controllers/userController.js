@@ -1,10 +1,10 @@
-const User = require('./../models/userModel');
+const Users = require('./../models/userModel');
 const sgMail = require('../utils/mail');
 const chalk = require('chalk');
 
 exports.signupUser = async (req, res) => {
     try {
-        const user = new User(req.body);
+        const user = new Users(req.body);
         await user.save();
         req.flash('success', 'User Created Successfully');
         await sgMail.sendVerification(user);
@@ -24,14 +24,14 @@ exports.verifyUser = async (req, res) => {
     const { username, verificationCode } = req.params;
     try {
         console.log(username, verificationCode);
-        const user = await User.findOne({ username, verificationCode });
+        const user = await Users.findOne({ username, verificationCode });
         if (!user) {
             req.flash('error', 'Invalid Username');
             throw new Error('Invalid Username');
         }
         const currTime = Date.now(), allowedTime = 6 * 60 * 60 * 1000; //6 hours
         if (currTime - user.verificationRequestTime > allowedTime) {
-            await User.findByIdAndDelete(user._id);
+            await Users.findByIdAndDelete(user._id);
             {
                 req.flash('error', 'Verified Code Expired. Try Registering Again');
                 throw new Error('Verified Code Expired. Try Registering Again');
