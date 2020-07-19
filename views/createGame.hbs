@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{> bootstrapHeader}}
+    <title>Home</title>
+</head>
+<body>
+    {{> logs}}
+    {{> userHeader}}
+        <h1>Create New Game</h1>
+    <form method="POST" action="/game/create" class="container" id="create_game_form">
+        <div class="row">
+            <div class="form-group col-5 mx-auto">
+                <label for="numRows">Number of Rows in Board</label>
+                <input type="number" class="form-control" id="numRows" name="numRows" max="9" min="1" value={{messages.formData.0.numRows}}>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-5 mx-auto">
+                <label for="numCols">Num of Columns in Board</label>
+                <input type="number" class="form-control" id="numCols" name="numCols" max="9" min="1" value={{messages.formData.0.numCols}}>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-5 mx-auto">
+                <label for="numTokens">Num of Tokens on Board</label>
+                <input type="number" class="form-control" id="numTokens" name="numTokens" min="2" value={{messages.formData.0.numTokens}}>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 mx-auto">
+            <input type="submit" class="btn btn-primary float-right" value="Create Game">
+            </div>
+        </div>
+    </form>
+    {{> bootstrapFooter}}
+</body>
+</html>

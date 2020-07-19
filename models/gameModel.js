@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 require('dotenv').config();
 
 
-const gameSchema = {
+const gameSchema = Schema({
     currPlayer: {
         type: Number,
         default: 1,
@@ -50,7 +50,7 @@ const gameSchema = {
                 enum: ['black', 'blue', 'red']
             }
         }]
-}
+});
 
 gameSchema.virtual('completed').get(function () {
     return this.numTokens === 0;

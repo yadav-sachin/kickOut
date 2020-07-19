@@ -82,7 +82,13 @@ const userSchema = mongoose.Schema(
                 type: String,
                 required: true
             }
-        }]
+        }],
+        games :[
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Game"
+            }
+        ]
     }
 );
 
