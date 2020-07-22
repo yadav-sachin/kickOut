@@ -13,10 +13,12 @@
     {{> logs }}
     <h2>LogIn to the System Here</h2>
     <div id="login_form_box">
-        <form method="POST" action="/user/login" id="login_form">
-            <input type="text" name="email" class="" id="email_form" placeholder="Email">
-            <input type="password" name="password" class="" id="password_form" placeholder="Password">
-            <input type="submit" value="LogIn" class="btn btn-primary" id="login_form_btn">
+        <form method="POST" action="/user/login" id="login_form" class="container-fluid">
+            <div class="form-row">
+                    <input type="text" name="email" class="" id="email_form" placeholder="Email">
+                    <input type="password" name="password" class="" id="password_form" placeholder="Password">
+                <input type="submit" value="LogIn" class="btn btn-primary" id="login_form_btn">
+            </div>
         </form>
     </div>
 
@@ -28,7 +30,8 @@
             <input type="text" name="lastName" id="lastname_form" placeholder="lastName (Optional)"
                 value={{messages.formData.0.lastName}}>
             <br>
-            <input type="text" name="username" id="username_form" placeholder="UserName" value={{messages.formData.0.username}}>
+            <input type="text" name="username" id="username_form" placeholder="UserName"
+                value={{messages.formData.0.username}}>
             <br>
             <input type="text" name="email" id="email_form" placeholder="Email" value={{messages.formData.0.email}}>
             <br>
