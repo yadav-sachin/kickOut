@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const Schema = mongoose.Schema;
 require('dotenv').config();
 
 const userSchema = mongoose.Schema(

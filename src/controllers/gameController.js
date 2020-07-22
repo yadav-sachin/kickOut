@@ -81,4 +81,16 @@ exports.joinGame = async (req, res) => {
     }
 }
 
+exports.getGameData = async (req, res) => {
+    try {
+        const gameId = req.params.gameId;
+        const game = await Games.findOne({ _id: gameId });
+        if (!game)
+            throw new Error('No Game Found');
+        res.send({ data: game });
+    } catch (err) {
+        res.status(400).send({error: err.message});
+    }
+}
+
 
